@@ -1,0 +1,39 @@
+BUILD: A virtual drive world builder
+====================================
+
+1. Why use it
+----------------
+
+This builder can help you create a virtual world of the structure
+of your drive. This means you can walk through your directories the
+same way you walk through rooms.
+
+In order to accomplish this, the builder will scan your drive and
+create a roomfile for each directory it encounters, thereby setting
+up exits to every subdirectory and an exit to go to the parent directory.
+
+
+2. How to use it
+----------------
+
+When finished, you can go to the first room (the 'entrance') by loading
+the roomfile '1.dir' in the directory where the builer has put the created
+files. From there on, you can walk through your drive.
+
+Of course, for more specific applications, you have to modify the files
+yourself, since only a small generic description is generated for each
+roomfile, and you may want to cross-link directories through the world.
+
+
+3. The parameters
+-----------------
+
+Usage:  build <directorytree>
+
+where <directorytree> = The path you want to be build by the builder
+                        Be sure to include complete drive specification, e.g.
+                        build c:\        will build tree from root directory
+                        build c:\player  will build the player directory
+                        build .          will build the current directory
+
+The output files are put in the same directory as build is called from!

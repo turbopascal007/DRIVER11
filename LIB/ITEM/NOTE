@@ -1,0 +1,23 @@
+unit item
+
+name Note
+
+write You receive an unofficial note. You can read it.^
+
+long This is an unofficial note. You can read it.
+
+int already_read 0
+
+verb read
+  if (already_read = 0)
+    write ~* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *^
+    write *      Welcome to this example world provided with the driver.            *^
+    write *      It provides you with one example monster, three example items      *^
+    write *      and 6 example rooms to demonstrate how to build this very          *^
+    write *      simple world. Enjoy and expand!                                    *^
+    write ~* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *^
+    set already_read 1
+  else
+    write You can read the note only once, sorry..^
+  endif
+endverb

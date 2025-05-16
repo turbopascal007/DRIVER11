@@ -1,0 +1,37 @@
+LOAD:  A game world file loader
+===============================
+
+1. Why use it
+-------------
+
+When you have created a unit file, you will have to wait until the
+driver loads your file at some point in the game world to see whether
+you have made an error or not.
+
+You can overcome this by forcing the specific file to load from within
+the game world with the command 'load'. However, you still have to start
+the whole driver in order to be able to use this command.
+
+The game world file loader is an extraction from this command for the
+DOS command line. It works internally the same as the world internal
+command, but without starting up the whole driver.
+
+With this utility, you can check all of your game code, including the
+main settings like windows and comports. It will report all errors
+found and at termination a status report of created objects.
+
+! Note that, all code within verb declarations will be taken for granted
+! at all load times, since that code can only be executed at runtime.
+! Even then, errors will never cause the command to fail, but are dumped
+! to the runtime error file.
+
+
+2. The parameters
+-----------------
+
+Usage:    load <gameworldfile> [<errorfile> [<logfile>]]
+
+If omitted, the defaults are as follows:
+<errorfile>     : loadexe.err
+<logfile>       : loadexe.log
+

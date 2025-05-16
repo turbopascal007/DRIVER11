@@ -1,0 +1,11 @@
+unit r
+
+name Trespass2
+
+load item\blueball
+
+long You are at the end of the trespassing standing in very bright
+long blue light. When you look up you see it's coming from a very
+long mysterious looking object hanging there. What is its purpose?
+
+exit e room\tres1

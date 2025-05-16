@@ -1,0 +1,10 @@
+unit r
+
+name Hallway1
+
+long You are walking through a long hallway.
+long It looks like the ends are bending as in a circular way.
+long Your eyes are almost blinded by all the light..
+
+exit n room\transrm
+exit s room\hallway2

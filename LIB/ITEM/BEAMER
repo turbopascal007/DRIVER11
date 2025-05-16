@@ -1,0 +1,67 @@
+unit item
+
+name Beamer
+
+long This is the magnificent transport beamer.
+long You see a button on its console and it looks like it needs a test.
+long It can transport you to any location if you only knew how..
+
+int activated 0
+int tested 0
+int count 0
+
+verb check
+  write This is a test to check simultaneous accesses to hard drive^
+  write Loading beamer 25 times
+  set count 0
+  while (count < 25)
+    internal load item\beamer
+    write .
+    inc count 1
+  endwhile
+  write 25 beamers added!^
+endverb
+
+verb activate
+  if ( activated < 10 )
+    inc activated 1
+    write You activated the beamer now~
+    writevar activated
+    write ~times...^
+    player inc exp 100
+  else
+    write If you try to activate it again, it may explode!^
+  endif
+endverb
+
+verb test
+   if ( activated = 0 )
+     write It is not activated!^
+   else
+     write You test the beamer and it reports itself as okay.^
+     set tested 1
+   endif
+endverb
+
+verb push
+  if ( tested = 0 )
+    write You push the button, but nothing happens..^
+  else
+    write You push the button and you see your environment fade away . . .^
+    if ( activated = 1 )
+      internal goto room/hallway1
+    endif
+    if ( activated = 2 )
+      internal goto room/hallway2
+    endif
+    if ( activated = 3 )
+      internal goto room/hallway3
+    endif
+    if ( activated = 4 )
+      internal goto room/tres1
+    endif
+    if ( activated > 4 )
+      internal goto room/tres2
+    endif
+  endif
+endverb

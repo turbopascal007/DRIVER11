@@ -1,0 +1,18 @@
+Multi User Dungeon Driver for DOS                                 revision 1.0B
+-------------------------------------------------------------------------------
+
+* multiple users, local via windows, and remote via serial ports/modems
+* multiple users on one serial port with client-server architecture
+* easy-to-learn interpreted language to build/expand the game world
+* on-line access to game world files and load/destruct possibilities
+* extremely memory optimized
+* mouse support
+* borland source included for changing/expanding of the driver
+* runs on all DOS-based systems (80x86 family)
+
+BIN     -  the init file, logfiles, errorfiles and utilities
+DOC     -  simple documents that provide basic information
+LIB     -  world files, the game itself
+SRC     -  source files of the binaries, please read the file readme.src
+
+Starting:  cd bin and start driver.exe. Please read the file doc\qckstart.doc

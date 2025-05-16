@@ -1,0 +1,18 @@
+History
+=======
+
+1.02b -> 1.09b
+-       Added xms library, currently xms is only detected, not used.
+-       Added a shell around the game boot, enabling multiple startups.
+
+1.01 -> 1.02b
+-       Total rewrite of task handling system. Now one player is able
+        to run multiple commands synchronously, i.e. in the background.
+-       Added the parser defined command '@' to list all running tasks.
+
+1.0 -> 1.01
+-       Fixed the delayed execution of verbs of a player when switching
+        players before logon.
+-       Added cursor command to enable cursor off when having system window.
+-       Added restoring of old screen when shutting down driver.
+-       Added a protected mode version, still in beta-test phase.

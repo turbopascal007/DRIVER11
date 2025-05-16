@@ -1,0 +1,185 @@
+DRIVER:  The game driver system
+===============================
+
+1. How to use it
+----------------
+
+When the driver is started, first a small shell is invoked, from which you can:
+- boot the system             ('b')
+- check all available memory  ('m')
+- change your initfile name   ('i')
+- totally quit the driver     ('q')
+
+The driver has only two meta-functional key bindings:
+F1       switch active window (only for windowed logons)
+Ctrl-F1  abort driver immediately (same as Ctrl-Break when enabled)
+
+The driver will recognize a mouse if you have one installed. You can
+activate windows by clicking on them.
+
+The driver can use all your serial ports and knows how to handle modems.
+
+The driver runs all players and all their given commands in multi-tasking mode.
+
+Please read this document completely to understand how things work:
+- Section 2 covers how to handle the init files.
+- Section 3 covers the basic ideas of this driver.
+- Section 4 covers some limitations and explanation.
+
+
+2. How to get it up and running
+-------------------------------
+
+2.1  The init file
+
+You have to provide an init file, which will create a game world.
+Without this file, nothing happens. Default is driver.ini.
+
+In init file and files that are read from within this file, you can
+use the following commands:
+
+cls <foregroundcolor> <backgroundcolor>
+    Clear the screen with supplied color settings
+
+cursor [on]|[off]
+    Set cursor on or off
+
+window <tx> <ty> <bx> <by> <bg> [f][u][s]
+    Set up a logon window on screen with dimensions (tx,ty,bx,by) and
+    background color <bg>.
+    If you plan to have overlapping windows, you should add 'f', so that
+    you they are 'flippable'. They will keep in memory what has been sent
+    to them and redraw themselves at a window switch (F1 or mouse).
+
+    If you want to have the windows to immediately update themselves
+    upon output receival, you should add 'u' as well. Note that this
+    option causes a dramatic decrease in output speed on slower systems.
+
+    If you want to have a system window, which displays system statistics
+    during running of the driver, add a 's'. Note you can't switch to
+    this window, as the system is no part of the playerworld.
+
+com <port> <baudrate> <databits> <parity> <stopbits> <mode>
+    Set up a logon from a serial port. If you plan to have a modem
+    connected that has to wait for an outcoming call in, the <mode>
+    should be 'm'(odem), so the logon prompt will wait for a carrier,
+    otherwise the mode should be a dummy character, like 'n'
+    The other parameters are documented in client.doc
+
+dir <path>
+    Sets the directory where the interpreter will look for the
+    world files. The default is . (current), so the driver.ini file
+    should always be in the current directory. Note that this
+    setting does not affect the current directory of each player.
+    It is only used for the driver-generated loads (auto-loads)
+
+(It is wise to use these 4 described commands only in the driver.ini
+file, as it is always preloaded and loaded only once. Usage in other
+files may cause unexpected effects, due to runtime-load basis of the driver)
+
+load <file>
+    Load another file from within this file. With this option you
+    can preload a room, load a monster in a room, or load stuff in
+    a room or monster.
+
+In driver.ini you should load at least one room, so the driver can provide
+an environment for the first player to log on.
+
+(In interpret.doc you will find more information about how a world file
+ should be written, in order for the load function to load it properly)
+
+
+2.2  The general player init file
+
+In your library directory (set with the 'dir' command or else the current
+directory) you have to have a player.ini file as well, where you set up
+stuff for each player that logs on, e.g. his standard commands like say, kill..
+
+(This file should be the only file with the 'unit player' header, otherwise
+some parts of your player character could be patched when another playerfile
+is loaded runtime by accident (unless you would want that to happen of course))
+
+A complete discussion of how such a file should be set up is too big for
+this small introdocument. Check out the sample code in player.ini and
+the syntax descriptions in interpret.doc
+
+
+2.3  The parameters
+
+Usage: driver [<runtime_errorfile> [<interpret_errorfile>
+
+where <runtime_errorfile>   = file where all internal errors will be written
+                              to during execution of the driver
+                              default = runtime.err
+      <interpret_errorfile> = file where all interpreting errors will be
+                              written during loading of world files
+                              default = interpre.err
+
+Note: by using 'nul' as filename, no output will be stored in files
+      (could be used for speeding up the driver with slow disks)
+
+
+3. When running...
+------------------
+
+When you boot the system, it will interpret the init file,
+thereby setting up the universe.
+
+Each window or comport logon will get the logon message where a name
+is required. That is your playername.
+
+Now your player.ini is loaded and you will hopefully be given some
+commands and get some variables set right.
+
+When you have loaded at least one room, the last loaded will be your
+present environment (normally you will just have to load one room, since
+the others are loaded runtime when an exit is entered). If you did not
+load a room, you will not much enjoy your stay, since you are nowhere then!
+
+Your commands at your prompt will run through the parser that will search
+which object defines an external command that is the same as what you typed.
+
+The parser itself defines two commands (thus they are always known):
+?  : Dump all external commands the parser can find at the moment.
+     The objects searched for external commands are: the room you are in,
+     items in the room you are in, the items you have, the monsters in
+     the room, and yourself.
+
+@  : Dump all running threaded tasks. In fact all external commands are
+     threaded tasks, however they will run too shortly to be caught by
+     this dump. Usually this command thus lists the running tasks in the
+     background.
+
+Some useful internal driver commands (that have to be made external in
+your player.ini before you can use them):
+
+The internal command 'quit' will return to the logon prompt to
+enable another logon.
+
+The internal command 'shutdown' will cause the driver to destruct the
+whole universe, giving appropriate messages to all players logged on.
+
+
+4. Limitations
+--------------
+
+4.1  Memory management
+
+When available data memory is exhausted (reported by internal command 'malloc')
+the driver will refuse to load any more objects. The system could be unstable
+when the available memory has reached the null-point, especially with commands
+that require multiple accesses to memory (e.g.complex verbs with multiple loads)
+
+4.2  Task management
+
+All external commands are threaded, i.e. they will be running simultanously
+with eachother. Thus no command waits for another to finish. Even a single
+player can start multiple commands without waiting for one to finish. This
+enables for a player the possibility to run some commands in the 'background'.
+Use the parser defined command '@' to list such longer running tasks.
+
+Everytime a single line is sent to a comport, the driver has to wait for
+the line to be sent. When using slow connections, this will lag the driver,
+and the local hosts' cursor will change to a þ indicating that running tasks
+are suspended for a short moment. Try to keep the baudrates as high as
+possible! (maximum is 38400)

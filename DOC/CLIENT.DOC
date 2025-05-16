@@ -1,0 +1,112 @@
+CLIENT:  A serial line client
+=============================
+
+1. How to use it
+----------------
+
+If you are on a computer that is linked to another computer that has
+the driver running on it, you can use the client to log on to the
+driver via a serial line.
+
+
+2. How to get it up and running
+-------------------------------
+
+You have to provide a client.ini file, which will set up a serial line.
+Without this file, nothing happens.
+
+In this file, you have to set at least one line that contains
+the following:
+
+com <port> <baudrate> <parity> <databits> <stopbits>
+
+where:
+
+port is your comport number 1-4
+baudrate is a baudrate in one of: 110, 150, 300, 600, 1200, 2400,
+                                  4800, 9600, 19200, 38400
+parity is one of: n (none), e (even), o (oneven)
+databits is your number of databits 5-8
+stopbits is your number of stopbits 1-2
+
+You also have to add/edit a line in driver.ini on the drivers' host
+computer that defines the same baudrate, parity, data and stopbits
+on the comport that has the connection with the client computer.
+(see driver.doc)
+
+
+3. Test your connection
+-----------------------
+
+You can test your connection by starting up a client on as well the
+client computer as the host computer. Be sure all parameters are
+the same in both ini files (except for the comport eventually)
+This way you can quickly determine what baudrates your ports can handle.
+
+
+4. Advanced mode
+----------------
+
+4.1  What about it?
+
+When you just start up the client and use it, it will just act as
+any terminal program (although those may require more sweat to get all
+parameters right)
+
+This client also supports multiple logons on one serial line! In order
+to be able to do so, it will need to go in a special mode, in which
+the client really starts talking to the driver. This mode will be
+enabled by pressing the <Escape> key after starting up the client.
+
+You have to set up this mode by adding as many lines in your client.ini
+as you want players in the following format:
+
+window <topx> <topy> <botx> <boty> <backgroundcol>
+
+Be sure that the next input the driver expects at the moment of
+pressing the <Escape> key on the serial line is the name of the player,
+since the handshaking is done by the client logging in as the player
+'client' with password 'client'.
+
+You can switch windows with F1, return to terminal mode with <Escape> and
+abort all contact immediately with 'Ctrl-F1'. Note that you can quit,
+but not relogon in a window (you can of course in normal terminal mode).
+
+
+4.2  How does it work?
+
+It's the most easiest protocol you can imagine. Try your terminal mode
+or program to see what happens. After logging in as name: client, code: client,
+driver will respond with 'driver:hello', notifying that a client player has
+been set up with only 2 special commands:
+
+<player> <command>  :   act as if <player> has typed <command> on his prompt
+                        (instead of the client who is the 'actual' player)
+client <player>     :   add a new player to the game with name <player>
+
+All output that is sent to a player that has logged on via the client <player>
+command will be preceded by his name, so the client will know where to
+send this output to a this side of the line, for example
+
+<player> Jack tells you: hi there, player via the client!
+
+Easy uh?
+
+
+5. Notes
+--------
+
+The client should be used for direct links, and then you always have
+to try the highest baudrate possible, for all comports 9600 is save,
+38400 is worth the try.
+The client can also be used for modem links, in which case you have
+to give modem commands for dial etc. by yourself and conform the ini
+file to your modems' capacities. This will also work for the advanced
+mode, you can use the <Escape> key again to leave the protocol mode,
+so you can hang up your modem.
+
+The client will never abort, if not done manually by Ctrl-Break.
+
+The driver accepts the client|client logon also from local windows, but all
+clients are then redirected to disk. Use this for testing purposes
+without a serial link.

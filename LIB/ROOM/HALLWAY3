@@ -1,0 +1,11 @@
+unit r
+
+name Hallway3
+
+long You are walking through a long hallway, intersected by a long
+long trespass which seems to lead to nowhere..
+long To the west in the trespass you see an overwhelming blue light.
+
+exit n room\hallway2
+exit s room\hallway3
+exit w room\tres1

@@ -1,0 +1,26 @@
+unit r
+
+name Transportroom
+
+int dark 0
+
+load item\note
+load item\beamer
+load mon\scottie
+
+long This is the transport room of the vessel U.S.S. Enterprise
+long You are standing on a very bright platform under some strange lights.
+long At the other end of the room you see some people looking suspiciously
+long at you as you unexpectly materialized here...
+
+exit s room\hallway1
+
+verb dark
+  if dark = 1
+    write It is already dark!^
+  else
+    set dark 1
+    set short A dark room
+    write You turn the lights off..^
+  endif
+endverb

@@ -1,0 +1,14 @@
+unit monster
+
+name Scottie
+
+long This is Scottie, the transport engineer
+long He knows very well how to deal with impatient persons!
+long Better not mess with him..
+
+write Scottie enters the room..^
+
+int exp   2000
+int hp    20
+int maxhp 100
+int money 100

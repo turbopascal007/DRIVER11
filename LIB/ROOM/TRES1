@@ -1,0 +1,9 @@
+unit r
+
+name Trespass1
+
+long You are standing in a trespassing, which leads west to a very
+long blue light. You must be wondering what mystery lies beyond that..
+
+exit e room\hallway3
+exit w room\tres2

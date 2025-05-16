@@ -1,0 +1,49 @@
+Internal driver commands
+========================
+
+1. How to use them
+------------------
+
+In the game world files you can use them everywhere within a verb
+declaration. For example, if you want the command 'l' to call the
+internal driver command 'look', add this to an appropriate object:
+
+verb l
+  internal look
+endverb
+
+If you want to pass the parameter that is given on the commandline
+to the internal command, use the % character as in:
+
+verb goto
+  internal goto %
+endverb
+
+
+2. Listing of internal commands
+-------------------------------
+
+malloc  Statistics of the driver in terms of memory allocation
+say     Say a message to the room
+shout   Shout a message to all players
+tell    Tell a message to another player
+echo    Echo a message to the room
+look    See where you are
+exa     Examine an object (same as 'look at')
+goto    Goto an object
+who     List all players
+list    List all rooms loaded
+inv     List your inventory
+have    Add a generic object to your inventory
+drop    Drop an object
+take    Take an object
+kill    Kill a monster or player
+stop    Stop the killing
+dest    Destruct an object
+load    Load an object
+score   Statistics of yourself
+ls      List files
+cd      Change directory
+quit    Quit this player session
+shutdown Shut driver down
+

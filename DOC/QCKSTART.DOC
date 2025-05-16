@@ -1,0 +1,46 @@
+Quickstarting the Game Driver
+=============================
+
+A.  You have the complete package including a lib directory with examples:
+
+ 1. Be sure you have a directory structure like this:
+       . ---|--- BIN
+            |--- LIB        (necessary to run the _example_ world)
+            |--- DOC        (not necessary)
+            |--- SRC        (not necessary)
+
+ 2. CD to the BIN directory and type 'driver'
+
+ You are up and running!
+
+
+
+B.  You want a minimum configuration to run or make a lib of yourself:
+
+ 1.  Make sure you have the following files:
+          driver.exe
+        ( driver.ini  -> you have to create/edit it yourself )
+        ( player.ini  -> you have to create/edit it yourself )
+
+ 2.  Touch driver.ini (i.e. create it)
+
+ 2.  Start player.ini with the 'unit player' line
+
+
+ The driver is runnable now.. abort with Ctrl-F1
+
+
+ 3.  To be able to logon, define a logon in driver.ini with 'window' or 'com'
+
+ 4.  To have an environment, load in driver.ini a room with the 'load' command
+
+ 5.  To have some commands to type, define them in player.ini with 'verb'
+
+
+ This is the essential base to set up a playable game world!
+
+
+ 6.  To move player.ini and all world files to a seperate directory, set it
+     in driver.ini with the 'dir' command
+
+ 7.  Further references in the other doc files...

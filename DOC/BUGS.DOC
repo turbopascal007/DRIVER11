@@ -1,0 +1,9 @@
+Known bugs
+==========
+
+Since introduction of new dynamic task daemon following flaws exist:
+
+- When one player has yet a task running, it is quite possible a new
+  task for this player will not execute correctly. Some errors in
+  recognizing variables might occur, causing the task to exit.
+  Maybe not all taskinfo is correctly allocated?

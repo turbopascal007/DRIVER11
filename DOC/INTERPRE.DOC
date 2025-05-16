@@ -1,0 +1,130 @@
+Quick syntax guide to game world files
+======================================
+
+1. required to make a file loadable
+-----------------------------------
+
+unit <room | monster | stuff>      - first define what kind of unit it is
+
+name <str>                         - give it a name, so it can be referenced
+
+
+2. optional (can be used more than once in a file)
+--------------------------------------------------
+
+long <str>                         - add a line to the long description
+                                     e.g.  long This is a player
+
+load <another_file>                - load another file and place the
+                                     unit defined in it in this unit
+                                     (if that is logically possible)
+                                     e.g.  load weapon1
+
+exit <direction> <file_name>       - rooms only, define the exits
+                                     e.g.  exit n room1
+
+str <identifier> <string>          - initialize a string variable as
+                                     identifier <identifier> with <string>
+                                     -> for examples and usage see below
+                                        at the verb function syntaxis
+
+int <identifier> <integer>         - initialize an integer variable as
+                                     identifier <identifier> with <integer>
+                                     
+write <str>                        - display a message when a player
+                                     loads this file (either manually or
+                                     driver-pushed)
+                                     in <str>: ^ means newline, ~ is a space
+
+pause <ticks>                      - pause for <ticks> ticks, if no ticks
+                                     are given, wait for keypress
+
+
+3. verb declarations (functions called by the players)
+------------------------------------------------------
+
+verb <verb_identifier>             - define a function that will be called
+ <instructions>                      when the player enters <verb_identifier>
+endverb                              (with optional arguments) at his prompt
+
+
+3.1 <instructions> (only valid within verb declaration)
+-------------------------------------------------------
+
+===OUTPUT
+
+write <str>              - write a message, in <str>: ^ = newline, ~ = space
+                           e.g.  write ~~~test message^
+
+writevar <ident>         - write contents of a string or integer variable
+                           e.g.  writevar lights_on
+
+echo <str>               - echo a message to all players in environment
+
+echovar <ident>          - echo contents of a string or integer variable
+                           to all players in environment
+                           e.g.  echovar short   (echoes name of current obj)
+
+===EXECUTION CONTROL
+
+if <expression>          - conditionally execute instructions
+                           - expressions can use (, ), =, <, >, and, or
+                             the left side of =, <, > must be an int/string var
+ <instructions>            - instructions can be anything defined in here
+
+else                       - else part is optional
+ <instructions>
+endif                      - endif is required
+                           examples can be found in \lib\player.ini
+==
+while <expression>       - do <instructions> as long as <expression> is true
+  <instructions>           e.g.  while ( a < 10 )^inc a 1^writevar a^endwhile
+endwhile
+
+===VARIABLE MANAGEMENT
+
+int <ident> <value>      - initialize an integer variable with a value
+                           e.g.  int activated 0
+
+str <ident> <value>      - initialize a string variable with a value
+                           e.g.  str title the orc
+
+set <ident> <value>      - set a variable to a(nother) value. It must be
+                           initialized first with the 'int' or 'str' command
+                           e.g.  set lights_on 1
+
+inc <ident> <value>      - increase a variable with the given value. It must
+                           be initialized first with the 'int' or 'str' command
+                           e.g.  inc times 1
+
+===FUNCTION CALLS
+
+internal <command> [%]   - call an internal command of the driver.
+                           (a complete functional player could be set up
+                           with internal commands only, see internal.doc)
+                           add a % if you want to pass the argument that
+                           has been given to the 'verb' to internal
+                           e.g.  internal north  (causes player to move north)
+                                 internal goto %
+
+player <instruction>     - call one of the above instructions in the player
+                           that has activated the verb in the current object
+                           e.g.  player inc hp 10
+
+4. notes
+--------
+
+Everything outside a verb declaration is in fact a quick way to
+set up a loadable file.
+
+For example, the command:              exit <dir> <filename>
+is equivalent to the verb declaration: verb <dir>
+                                         internal goto <filename>
+                                       endverb
+
+Just like the (required!) declaration: name <str>
+is equivalent to the variable set:     set short <str>
+
+This means you can override things set outside verb declarations with
+your own defined verb declarations.
+
